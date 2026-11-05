@@ -1,0 +1,67 @@
+@model int?
+@{
+    ViewData["Title"] = Model.HasValue ? "Editar projeto" : "Publicar projeto";
+    ViewData["Page"] = "postJob";
+}
+<section class="page active projeto-area">
+    <h1>@ViewData["Title"]</h1>
+    <p>A empresa responsável será identificada pela sua conta.</p>
+
+    <form id="projeto-form" class="publish-form" data-id="@Model"
+          data-api="@Url.Content("~/api/projetos")"
+          data-detalhes="@Url.Content("~/Projetos/Detalhes")">
+
+        <label for="titulo">Título</label>
+        <input id="titulo" name="titulo" minlength="5" maxlength="100" required>
+
+        <label for="categoria">Categoria</label>
+        <select id="categoria" name="categoria" required>
+            <option value="">Selecione</option>
+            <option>Desenvolvimento Web</option>
+            <option>Design</option>
+            <option>Conteúdo</option>
+            <option>Audiovisual</option>
+            <option>Marketing</option>
+            <option>Dados</option>
+            <option>Backend</option>
+            <option>Outros</option>
+        </select>
+
+        <label for="descricao">Descrição do projeto</label>
+        <textarea id="descricao" name="descricao" minlength="20" maxlength="10000" rows="6" required></textarea>
+
+        <label for="habilidades">Habilidades (separadas por vírgula)</label>
+        <input id="habilidades" name="habilidades" maxlength="1000" required>
+
+        <label for="orcamentoMinimo">Orçamento mínimo (R$)</label>
+        <input id="orcamentoMinimo" name="orcamentoMinimo" type="number" min="0.01" max="999999999.99" step="0.01" required>
+
+        <label for="orcamentoMaximo">Orçamento máximo (R$)</label>
+        <input id="orcamentoMaximo" name="orcamentoMaximo" type="number" min="0.01" max="999999999.99" step="0.01" required>
+
+        <label for="prazoDias">Prazo (dias)</label>
+        <input id="prazoDias" name="prazoDias" type="number" min="1" max="3650" required>
+
+        <label for="tipoPagamento">Pagamento</label>
+        <select id="tipoPagamento" name="tipoPagamento">
+            <option>Valor fixo</option>
+            <option>Por hora</option>
+            <option>Por entrega</option>
+        </select>
+
+        <label for="experiencia">Experiência</label>
+        <select id="experiencia" name="experiencia">
+            <option>Iniciante</option>
+            <option>Intermediário</option>
+            <option>Avançado</option>
+        </select>
+
+        <button type="submit" class="primary-button">Salvar projeto</button>
+        <p id="projeto-mensagem" role="status"></p>
+    </form>
+    <a asp-controller="Projetos" asp-action="Meus">Meus projetos</a>
+</section>
+@section Scripts {
+    <script src="~/js/projetos.js" asp-append-version="true"></script>
+    <script src="~/js/publicar-projeto.js" asp-append-version="true"></script>
+}

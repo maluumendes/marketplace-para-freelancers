@@ -1,0 +1,27 @@
+@*
+    Tela de boas-vindas. Só aparece para quem NÃO está logado
+    (quem está logado é redirecionado pelo HomeController).
+*@
+@{
+    ViewData["Title"] = "Bem-vindo";
+}
+
+<section class="page active">
+  <div class="center-heading">
+    <h1>Bem-vindo ao Freela.</h1>
+    <p class="available">Conectamos quem tem um projeto a quem sabe fazer.</p>
+  </div>
+
+  <div class="publish-form auth-card">
+    <a class="primary-button full-button auth-link"
+       asp-controller="Conta" asp-action="Login">Entrar</a>
+
+    <a class="secondary-button full-button auth-link"
+       asp-controller="Conta" asp-action="Cadastro">Criar conta</a>
+
+    <p class="form-note">
+      Ao criar a conta você escolhe se quer trabalhar como freelancer
+      ou contratar profissionais.
+    </p>
+  </div>
+</section>

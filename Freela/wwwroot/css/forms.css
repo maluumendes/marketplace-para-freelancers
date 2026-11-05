@@ -1,0 +1,40 @@
+/* FORMULÁRIO DE PUBLICAÇÃO */
+
+.publish-form {
+  width: min(100%, 730px);
+  margin: 0 auto;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  border: 1px solid var(--pink-line);
+  border-radius: 22px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.publish-form label {
+  margin-top: 5px;
+  color: #76575a;
+  font-size: 15px;
+}
+
+.publish-form input,
+.publish-form textarea,
+.publish-form select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #ead4ca;
+  border-radius: 11px;
+  background: #fffaf5;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.publish-form textarea {
+  resize: vertical;
+}
+
+.publish-form .form-grid {
+  margin-top: 8px;
+}

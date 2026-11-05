@@ -1,0 +1,37 @@
+@model int
+@using System.Security.Claims
+@{ ViewData["Title"] = "Detalhes do projeto"; }
+<section class="page active projeto-area">
+    <p id="mensagem" role="status"></p>
+    <article id="detalhes-projeto" data-id="@Model"
+             data-usuario="@User.FindFirstValue(ClaimTypes.NameIdentifier)"
+             data-cliente="@User.IsInRole("CLIENTE").ToString().ToLowerInvariant()"
+             data-api="@Url.Content("~/api/projetos")"></article>
+    <div id="acoes-projeto" hidden>
+        <a id="editar-projeto" asp-controller="Projetos" asp-action="Editar" asp-route-id="@Model">Editar projeto</a>
+        <button type="button" id="encerrar-projeto" class="primary-button">Encerrar projeto</button>
+    </div>
+    @* Integrante 3: ações de interação (aparecem pelo detalhes-projeto.js) *@
+    <a id="ver-candidatos" asp-controller="Home" asp-action="Candidatos" hidden>Ver candidatos</a>
+    @if (User.IsInRole("FREELANCER"))
+    {
+        <button type="button" id="tenho-interesse" class="primary-button" hidden>Tenho interesse</button>
+    }
+
+    @if (User.IsInRole("CLIENTE"))
+    {
+        <a asp-controller="Projetos" asp-action="Meus">Meus projetos</a>
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="Vagas">Voltar à busca</a>
+    }
+</section>
+@section Scripts {
+    <script src="~/js/projetos.js" asp-append-version="true"></script>
+    @if (User.IsInRole("FREELANCER"))
+    {
+        <script src="~/js/application-form.js" asp-append-version="true"></script>
+    }
+    <script src="~/js/detalhes-projeto.js" asp-append-version="true"></script>
+}

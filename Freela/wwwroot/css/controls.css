@@ -1,0 +1,59 @@
+/* BOTÕES DE INTERESSE */
+
+.swipe-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  column-gap: 22px;
+  width: 290px;
+  margin: 24px auto 0;
+}
+
+.round-action {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fffdfa;
+  font-size: 34px;
+  line-height: 1;
+  transition: transform .18s, box-shadow .18s;
+}
+
+.round-action:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 7px 16px #57303018;
+}
+
+.reject {
+  border: 1px solid #f2b4bf;
+  color: #c93e53;
+}
+
+.accept {
+  border: 1px solid var(--green-soft);
+  color: var(--green);
+  font-size: 36px;
+}
+
+.action-labels {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  width: 100%;
+  margin-top: 7px;
+  color: #8d6c6d;
+  text-align: center;
+  font-size: 13px;
+}
+
+.hint {
+  max-width: 440px;
+  margin: 15px auto 0;
+  color: #a17f7e;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+}

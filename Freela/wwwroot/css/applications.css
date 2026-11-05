@@ -1,0 +1,217 @@
+
+/* =====================================
+   TELA 2 — MINHAS CANDIDATURAS
+===================================== */
+
+.application-list {
+    max-width: 730px;
+    margin: 0 auto;
+    display: grid;
+    gap: 14px;
+}
+
+.application-card {
+    padding: 16px;
+    border: 1px solid var(--pink-line);
+    border-radius: 21px;
+    background: rgba(255, 253, 250, .97);
+    box-shadow: var(--shadow);
+}
+
+.application-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.application-card h2 {
+    margin: 0 0 3px;
+    font-size: 19px;
+}
+
+.application-date {
+    margin: 0;
+    color: #a17f7c;
+    font-size: 14px;
+}
+
+/* STATUS */
+
+.status {
+    flex-shrink: 0;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: var(--pink-soft);
+    color: #8e4759;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.application-message {
+    margin: 10px 0;
+    color: #8d6b6d;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.application-meta {
+    color: #9b7b79;
+    font-size: 14px;
+}
+
+.application-meta strong {
+    color: #382126;
+}
+
+.application-link {
+    margin-top: 9px;
+}
+
+/* =====================================
+   STATUS E MATCH
+===================================== */
+
+.loading-text {
+    color: var(--muted);
+    text-align: center;
+    font-size: 15px;
+}
+
+.application-summary {
+    max-width: 730px;
+    margin: 0 auto 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    color: #9b7b79;
+    font-size: 14px;
+}
+
+.application-summary strong {
+    color: var(--ink);
+}
+
+.summary-match strong {
+    color: var(--green);
+}
+
+.status-pendente {
+    background: #fdf0d8;
+    color: #9a6a12;
+}
+
+.status-aceita {
+    background: #dcf2e5;
+    color: #0f7a46;
+}
+
+.status-rejeitada {
+    background: #f3e6e6;
+    color: #8f5b5b;
+}
+
+.application-card.is-match {
+    border-color: var(--green-soft);
+}
+
+/* CAIXA DO MATCH */
+
+.match-box {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--green-soft);
+    border-radius: 14px;
+    background: #f1faf4;
+    color: #36614a;
+    font-size: 14px;
+}
+
+.match-box strong {
+    color: #0f7a46;
+}
+
+.match-box a {
+    color: #0f7a46;
+}
+
+/* AÇÕES */
+
+.application-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.danger-text {
+    color: #c93e53;
+}
+
+.danger-text:hover {
+    color: #a32c40;
+}
+
+/* =====================================
+   PERFIL DA EMPRESA NO CARD
+===================================== */
+
+.application-company-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.application-company-avatar {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--pink-line);
+    object-fit: cover;
+    object-position: center;
+}
+
+.application-company-initials {
+    display: grid;
+    place-items: center;
+    background: var(--pink-soft);
+    color: var(--rose-text);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.application-company-bio {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* Dois botões no estado vazio da tela de vagas */
+
+.empty-state .secondary-button {
+    margin-top: 8px;
+}
+
+/* CELULAR */
+
+@media (max-width: 550px) {
+    .application-top {
+        flex-wrap: wrap;
+    }
+
+    .application-card {
+        padding: 13px;
+    }
+
+    .application-company-profile {
+        align-items: flex-start;
+    }
+}

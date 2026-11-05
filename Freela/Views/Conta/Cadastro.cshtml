@@ -1,0 +1,93 @@
+@model CadastroViewModel
+@{
+    ViewData["Title"] = "Criar conta";
+}
+
+<section class="page active">
+  <div class="center-heading">
+    <h1>Crie sua conta</h1>
+    <p class="available">Escolha como você quer usar o Freela.</p>
+  </div>
+
+  <form asp-controller="Conta" asp-action="Cadastro" method="post" class="publish-form auth-card">
+    <div asp-validation-summary="ModelOnly" class="field-error"></div>
+
+    <!-- TIPO DE CONTA: define se o usuário vira Freelancer ou Cliente -->
+    <div class="role-options">
+      <label class="role-choice">
+        <input type="radio" asp-for="TipoUsuario" value="FREELANCER">
+        <span class="role-option">
+          <span>♡</span>
+          <strong>Quero trabalhar</strong>
+          <small>Encontrar projetos e enviar candidaturas.</small>
+        </span>
+      </label>
+
+      <label class="role-choice">
+        <input type="radio" asp-for="TipoUsuario" value="CLIENTE">
+        <span class="role-option">
+          <span>♧</span>
+          <strong>Quero contratar</strong>
+          <small>Publicar vagas e encontrar freelancers.</small>
+        </span>
+      </label>
+    </div>
+    <span asp-validation-for="TipoUsuario" class="field-error"></span>
+
+    <label id="label-nome" for="Nome">Nome completo</label>
+    <input asp-for="Nome" autocomplete="name">
+    <span asp-validation-for="Nome" class="field-error"></span>
+
+    <label id="label-documento" for="Documento">CPF</label>
+    <input asp-for="Documento" inputmode="numeric" placeholder="Somente números">
+    <span asp-validation-for="Documento" class="field-error"></span>
+
+    <label for="Email">E-mail</label>
+    <input asp-for="Email" placeholder="voce@email.com" autocomplete="email">
+    <span asp-validation-for="Email" class="field-error"></span>
+
+    <label for="Telefone">Telefone (opcional)</label>
+    <input asp-for="Telefone" autocomplete="tel">
+    <span asp-validation-for="Telefone" class="field-error"></span>
+
+    <label for="Senha">Senha</label>
+    <input asp-for="Senha" type="password" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+    <span asp-validation-for="Senha" class="field-error"></span>
+
+    <label for="ConfirmarSenha">Repita a senha</label>
+    <input asp-for="ConfirmarSenha" type="password" autocomplete="new-password">
+    <span asp-validation-for="ConfirmarSenha" class="field-error"></span>
+
+    <button class="primary-button full-button" type="submit">Criar conta</button>
+
+    <p class="auth-switch">
+      Já tem conta?
+      <a asp-controller="Conta" asp-action="Login">Entrar</a>
+    </p>
+  </form>
+</section>
+
+@section Scripts {
+  <script>
+    // Ajusta os textos dos campos conforme o tipo de conta escolhido
+    const labelNome = document.getElementById("label-nome");
+    const labelDocumento = document.getElementById("label-documento");
+
+    function atualizarCampos() {
+      const escolhido = document.querySelector('input[name="TipoUsuario"]:checked');
+
+      if (escolhido && escolhido.value === "CLIENTE") {
+        labelNome.textContent = "Nome ou razão social";
+        labelDocumento.textContent = "CPF ou CNPJ";
+      } else {
+        labelNome.textContent = "Nome completo";
+        labelDocumento.textContent = "CPF";
+      }
+    }
+
+    document.querySelectorAll('input[name="TipoUsuario"]')
+      .forEach(radio => radio.addEventListener("change", atualizarCampos));
+
+    atualizarCampos();
+  </script>
+}

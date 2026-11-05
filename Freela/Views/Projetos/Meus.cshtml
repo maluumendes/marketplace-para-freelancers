@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Meus projetos";
+    ViewData["Page"] = "myProjects";
+}
+
+<!-- CSS do resumo das atividades - Integrante 4 -->
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/painel.css"
+          asp-append-version="true" />
+}
+
+<!-- =====================================
+     TELA: MEUS PROJETOS
+====================================== -->
+
+<section class="page active projeto-area">
+
+    <!-- Título da página -->
+    <h1>Meus projetos</h1>
+
+    <!-- Botão para publicar um novo projeto -->
+    <a asp-controller="Home" asp-action="Publicar">
+        Publicar projeto
+    </a>
+
+    <!-- =====================================
+         RESUMO DAS ATIVIDADES
+         Desenvolvido pelo Integrante 4
+    ====================================== -->
+
+    <div id="painel-resumo" class="painel-resumo"></div>
+
+    <!-- Mensagens de sucesso e erro -->
+    <p id="mensagem" role="status"></p>
+
+    <!-- =====================================
+         LISTAGEM DOS PROJETOS DA EMPRESA
+         Funcionalidade já existente
+    ====================================== -->
+
+    <div id="lista-projetos"
+         data-meus="true"
+         data-api="@Url.Content("~/api/projetos")"
+         data-detalhes="@Url.Content("~/Projetos/Detalhes")">
+    </div>
+
+</section>
+
+<!-- =====================================
+     SCRIPTS DA PÁGINA
+====================================== -->
+
+@section Scripts {
+
+    <!-- Resumo das atividades - Integrante 4 -->
+    <script src="~/js/painel-resumo.js"
+            asp-append-version="true"></script>
+
+    <!-- Gerenciamento dos projetos -->
+    <script src="~/js/projetos.js"
+            asp-append-version="true"></script>
+
+    <!-- Busca e listagem dos projetos -->
+    <script src="~/js/buscar-projetos.js"
+            asp-append-version="true"></script>
+
+}

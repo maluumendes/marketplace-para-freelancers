@@ -1,0 +1,151 @@
+
+/* =====================================
+   ÁREA DE PROJETOS
+===================================== */
+
+.projeto-area {
+    max-width: 960px;
+    margin: auto;
+    padding: 24px;
+}
+
+.projeto-area label {
+    display: block;
+    margin: 12px 0;
+}
+
+.projeto-area input,
+.projeto-area textarea,
+.projeto-area select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.projeto-card {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    overflow-wrap: anywhere;
+}
+
+.projeto-card p {
+    white-space: pre-wrap;
+}
+
+.projeto-area button,
+.projeto-area a {
+    margin: 8px;
+}
+
+/* LINKS DE NAVEGAÇÃO */
+
+.projeto-area a:not([class]) {
+    display: inline-block;
+    color: var(--rose-text);
+    font-weight: 600;
+}
+
+.projeto-area a:not([class]):hover {
+    color: var(--rose-hover);
+}
+
+/* =====================================
+   PERFIL DA EMPRESA NOS CARDS
+===================================== */
+
+.projeto-empresa-perfil {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.projeto-empresa-avatar {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--pink-line);
+    object-fit: cover;
+    object-position: center;
+}
+
+.projeto-iniciais {
+    display: grid;
+    place-items: center;
+    background: var(--pink-soft);
+    color: var(--rose-text);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.projeto-empresa-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.projeto-empresa-info strong {
+    color: var(--ink);
+}
+
+.projeto-empresa-info p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* =====================================
+   PERFIL DA EMPRESA NOS DETALHES
+===================================== */
+
+.detalhes-empresa-perfil {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0;
+}
+
+.detalhes-empresa-avatar {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--pink-line);
+}
+
+.detalhes-empresa-iniciais {
+    display: grid;
+    place-items: center;
+    background: var(--pink-soft);
+    color: var(--rose-text);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.detalhes-empresa-bio {
+    margin: 4px 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* CELULAR */
+
+@media (max-width: 480px) {
+    .projeto-area {
+        padding: 15px;
+    }
+
+    .projeto-card {
+        padding: 17px;
+    }
+}

@@ -1,0 +1,126 @@
+@*
+    Tela do FREELANCER: busca de vagas (filtros) + cards de interesse
+    wwwroot/js/vagas.js:
+      GET  /api/projetos/disponiveis?filtros -> vagas abertas que ele ainda não avaliou
+      ×    POST /api/interesses              -> descarta a vaga (Rejeicao)
+      ♡    POST /api/candidaturas            -> modal de candidatura = interesse
+*@
+@{
+    ViewData["Title"] = "Procurar vagas";
+    ViewData["Page"] = "jobs";
+}
+
+<!-- TELA 1: PROCURAR VAGAS -->
+<section class="page active" id="page-jobs">
+  <div class="center-heading">
+    <h1>Procurar vagas</h1>
+    <p class="available" id="job-count">Carregando vagas...</p>
+  </div>
+
+  <!-- FILTROS: busca + categoria + orçamento (parâmetros do GET /api/projetos) -->
+  <div class="vaga-filtros" id="filtros">
+    <label class="busca-vagas">
+      <span class="sr-only">Buscar vagas</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+      <input id="busca" type="search" autocomplete="off"
+             placeholder="Buscar por vaga, empresa ou habilidade">
+    </label>
+
+    <div class="filtros-linha">
+      <!-- Menu suspenso: Categoria -->
+      <div class="dropdown" data-filtro="categoria">
+        <button type="button" class="dropdown-botao" aria-haspopup="listbox" aria-expanded="false">
+          <span class="dropdown-texto">Todas as categorias</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </button>
+        <ul class="dropdown-menu" role="listbox" hidden>
+        <li><button type="button" role="option" data-value="" aria-selected="true">Todas as categorias</button></li>
+        <li><button type="button" role="option" data-value="Desenvolvimento Web">Desenvolvimento Web</button></li>
+        <li><button type="button" role="option" data-value="Design">Design</button></li>
+        <li><button type="button" role="option" data-value="Backend">Backend</button></li>
+        <li><button type="button" role="option" data-value="Dados">Dados</button></li>
+        <li><button type="button" role="option" data-value="Conteúdo">Conteúdo</button></li>
+        <li><button type="button" role="option" data-value="Marketing">Marketing</button></li>
+        <li><button type="button" role="option" data-value="Audiovisual">Audiovisual</button></li>
+        <li><button type="button" role="option" data-value="Outros">Outros</button></li>
+        </ul>
+      </div>
+
+      <!-- Menu suspenso: Orçamento (vira minimo/maximo na API) -->
+      <div class="dropdown" data-filtro="orcamento">
+        <button type="button" class="dropdown-botao" aria-haspopup="listbox" aria-expanded="false">
+          <span class="dropdown-texto">Qualquer orçamento</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </button>
+        <ul class="dropdown-menu" role="listbox" hidden>
+          <li><button type="button" role="option" data-value="" aria-selected="true">Qualquer orçamento</button></li>
+          <li><button type="button" role="option" data-value="0-1000">Até R$ 1.000</button></li>
+          <li><button type="button" role="option" data-value="1000-3000">R$ 1.000 a R$ 3.000</button></li>
+          <li><button type="button" role="option" data-value="3000-">Acima de R$ 3.000</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <button type="button" class="limpar-filtros hidden" id="limpar-filtros">Limpar filtros</button>
+  </div>
+
+  <div class="job-layout">
+    <article class="job-card hidden" id="job-card"></article>
+
+    <div class="empty-state hidden" id="jobs-empty">
+      <h2 id="jobs-empty-title">Você viu todas as vagas por enquanto! 💗</h2>
+
+      <p>
+        <span id="jobs-empty-text">Não encontramos novas oportunidades no momento.
+        Volte mais tarde para conferir novos projetos.</span>
+      </p>
+
+      <button class="primary-button" id="empty-find-jobs" type="button">
+        Ver minhas candidaturas
+      </button>
+
+      <button class="secondary-button" id="empty-reset-jobs" type="button">
+        Rever vagas descartadas
+      </button>
+    </div>
+
+    <div class="empty-state hidden" id="jobs-error" role="alert">
+      <div class="empty-icon">!</div>
+      <h2>Não foi possível carregar as vagas</h2>
+      <p id="jobs-error-message"></p>
+      <button class="primary-button" id="jobs-retry" type="button">Tentar novamente</button>
+    </div>
+
+    <div class="swipe-controls hidden" id="job-controls">
+      <button class="round-action reject" id="job-reject" type="button"
+              aria-label="Recusar vaga">×</button>
+
+      <button class="round-action accept" id="job-like" type="button"
+              aria-label="Demonstrar interesse">♡</button>
+
+      <div class="action-labels">
+        <span>Não tenho interesse</span>
+        <span>Tenho interesse</span>
+      </div>
+    </div>
+
+    <p class="hint">
+      Arraste o cartão para a esquerda para recusar
+      ou para a direita para demonstrar interesse.
+    </p>
+  </div>
+</section>
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/filtros-vagas.css" asp-append-version="true">
+}
+
+@section Scripts {
+  <script src="~/js/swipe.js" asp-append-version="true"></script>
+  <script src="~/js/detalhes-vaga.js" asp-append-version="true"></script>
+  <script src="~/js/application-form.js" asp-append-version="true"></script>
+  <script src="~/js/vagas.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,65 @@
+/* ========================================
+   RESUMO DAS ATIVIDADES - INTEGRANTE 4
+======================================== */
+
+.painel-resumo {
+    max-width: 1050px;
+    margin: 20px auto 25px;
+}
+
+.painel-resumo h2 {
+    font-size: 21px;
+    margin-bottom: 14px;
+}
+
+/* Grade dos indicadores */
+
+.resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 12px;
+}
+
+/* Cada indicador */
+
+.resumo-card {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    padding: 18px;
+
+    background: var(--paper);
+    border: 1px solid var(--pink-line);
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+}
+
+/* Número do indicador */
+
+.resumo-card strong {
+    font-size: 27px;
+    color: var(--rose-text);
+}
+
+/* Descrição do indicador */
+
+.resumo-card span {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* Ajuste para celulares */
+
+@media (max-width: 480px) {
+
+    .resumo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .resumo-card {
+        padding: 13px;
+    }
+
+}

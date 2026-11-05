@@ -1,0 +1,90 @@
+@*
+    Tela da EMPRESA: candidatos de cada vaga + matches realizados.
+    Os dados vêm da API (wwwroot/js/candidatos.js):
+      GET /api/projetos/meus                       -> vagas da empresa (select)
+      GET /api/candidaturas/projeto/{id}?status=Pendente -> cards para aceitar/recusar
+      PUT /api/candidaturas/{id}/decisao           -> ♡ aceitar (MATCH) ou × recusar
+      GET /api/matches                             -> matches realizados
+*@
+@{
+    ViewData["Title"] = "Candidatos";
+    ViewData["Page"] = "client";
+}
+
+<!-- TELA 3: CANDIDATURAS DO CLIENTE -->
+<section class="page active" id="page-client">
+  <div class="center-heading client-heading">
+    <h1>Candidaturas</h1>
+    <p class="available" id="candidate-count">Carregando...</p>
+  </div>
+
+  <div class="select-wrap" id="project-select-wrap">
+    <label for="project-select" class="sr-only">Vaga</label>
+    <select id="project-select"></select>
+  </div>
+
+  <div id="candidate-stage" class="hidden">
+    <article class="candidate-card"></article>
+
+    <div class="swipe-controls candidate-controls">
+      <button class="round-action reject" id="candidate-reject" type="button"
+              aria-label="Recusar candidato">×</button>
+
+      <button class="round-action accept" id="candidate-accept" type="button"
+              aria-label="Aceitar candidato">♡</button>
+
+      <div class="action-labels">
+        <span>Rejeitar</span>
+        <span>Aceitar (match)</span>
+      </div>
+    </div>
+
+    <p class="hint">
+      Arraste para a esquerda para rejeitar
+      ou para a direita para aceitar.
+    </p>
+  </div>
+
+  <!-- Nenhum candidato pendente na vaga escolhida -->
+  <div class="empty-state hidden" id="candidate-empty">
+    <div class="empty-icon">♡</div>
+
+    <h2>Você viu todos os candidatos desta vaga!</h2>
+
+    <p>Volte mais tarde para conferir novas candidaturas.</p>
+
+    <button class="primary-button" id="reset-candidates" type="button">
+      Atualizar lista
+    </button>
+  </div>
+
+  <!-- Erro ao carregar (fica na tela, com "Tentar novamente") -->
+  <div class="empty-state hidden" id="candidates-error" role="alert">
+    <div class="empty-icon">!</div>
+    <h2>Não foi possível carregar os candidatos</h2>
+    <p id="candidates-error-message"></p>
+    <button class="primary-button" id="candidates-retry" type="button">Tentar novamente</button>
+  </div>
+
+  <!-- A empresa ainda não publicou nenhuma vaga -->
+  <div class="empty-state hidden" id="projects-empty">
+    <div class="empty-icon">♧</div>
+
+    <h2>Você ainda não publicou vagas</h2>
+
+    <p>Publique uma vaga para começar a receber candidatos.</p>
+
+    <a class="primary-button auth-link" asp-controller="Home" asp-action="Publicar">Publicar vaga</a>
+  </div>
+
+  <!-- MATCHES DA VAGA ESCOLHIDA -->
+  <section class="matches-section hidden" id="matches-section" aria-labelledby="matches-title">
+    <h2 id="matches-title">Matches realizados</h2>
+    <div class="match-list" id="match-list"></div>
+  </section>
+</section>
+
+@section Scripts {
+  <script src="~/js/swipe.js" asp-append-version="true"></script>
+  <script src="~/js/candidatos.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,71 @@
+@*
+    Tela do FREELANCER: status das candidaturas e matches.
+
+    Integrante 4:
+    - Exibição do resumo das atividades.
+    - Quantidade de candidaturas.
+    - Quantidade de matches.
+    - Integração com o endpoint /api/painel/resumo.
+
+    Funcionalidades já existentes:
+    GET    /api/candidaturas/minhas
+    DELETE /api/candidaturas/{id}
+*@
+
+@{
+    ViewData["Title"] = "Minhas candidaturas";
+    ViewData["Page"] = "applications";
+}
+
+<!-- CSS específico do painel -->
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/painel.css"
+          asp-append-version="true" />
+}
+
+<!-- TELA: MINHAS CANDIDATURAS -->
+<section class="page active" id="page-applications">
+
+    <!-- Cabeçalho da página -->
+    <div class="left-heading">
+        <h1>Minhas candidaturas</h1>
+
+        <p>
+            Vagas nas quais você demonstrou interesse
+            e o retorno das empresas.
+        </p>
+    </div>
+
+    <!-- =====================================
+         RESUMO DAS ATIVIDADES
+         Desenvolvido pelo Integrante 4
+    ====================================== -->
+
+    <div id="painel-resumo" class="painel-resumo"></div>
+
+    <!-- =====================================
+         LISTAGEM DAS CANDIDATURAS
+         Funcionalidade já existente
+    ====================================== -->
+
+    <div id="applications-content"></div>
+
+</section>
+
+<!-- Scripts específicos da página -->
+@section Scripts {
+
+    <!-- Resumo das atividades - Integrante 4 -->
+    <script src="~/js/painel-resumo.js"
+            asp-append-version="true"></script>
+
+    <!-- Detalhes das vagas -->
+    <script src="~/js/detalhes-vaga.js"
+            asp-append-version="true"></script>
+
+    <!-- Candidaturas e matches -->
+    <script src="~/js/applications.js"
+            asp-append-version="true"></script>
+
+}

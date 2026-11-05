@@ -1,0 +1,145 @@
+@model PerfilViewModel
+
+@{
+    ViewData["Title"] = "Meu perfil";
+    ViewData["Page"] = "profile";
+}
+
+<section class="page active perfil-area">
+
+    <div class="left-heading">
+        <h1>Meu perfil</h1>
+
+        <p>
+            Personalize suas informações e conte um pouco
+            sobre você.
+        </p>
+    </div>
+
+    <form asp-controller="Perfil"
+          asp-action="Salvar"
+          method="post"
+          enctype="multipart/form-data"
+          class="perfil-form">
+
+        <div asp-validation-summary="ModelOnly"
+             class="field-error"></div>
+
+        @if (TempData["Sucesso"] != null)
+        {
+            <p class="perfil-sucesso">
+                @TempData["Sucesso"]
+            </p>
+        }
+
+        <!-- FOTO E IDENTIFICAÇÃO -->
+
+        <div class="perfil-identificacao">
+
+            @if (!string.IsNullOrWhiteSpace(Model.FotoPerfilAtual))
+            {
+                <img src="@Model.FotoPerfilAtual"
+                     alt="Foto do perfil"
+                     class="perfil-avatar">
+            }
+            else
+            {
+                <div class="perfil-avatar perfil-iniciais">
+                    @Model.Iniciais
+                </div>
+            }
+
+            <div>
+                <h2>@Model.Nome</h2>
+                <p>@Model.Email</p>
+
+                <span class="perfil-tipo">
+                    @(Model.TipoUsuario == "CLIENTE"
+                        ? "Empresa"
+                        : "Freelancer")
+                </span>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!-- ALTERAR FOTO -->
+
+        <label asp-for="Foto">Foto de perfil</label>
+
+        <input asp-for="Foto"
+               type="file"
+               accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+
+        <span asp-validation-for="Foto"
+              class="field-error"></span>
+
+        <small class="campo-ajuda">
+            Escolha JPG, PNG ou WEBP. Tamanho máximo: 3 MB.
+        </small>
+
+        <!-- BIOGRAFIA -->
+
+        <label asp-for="Bio">Sobre você</label>
+
+        <textarea asp-for="Bio"
+                  rows="5"
+                  maxlength="1000"
+                  placeholder="Conte um pouco sobre você, sua experiência e seus objetivos..."></textarea>
+
+        <span asp-validation-for="Bio"
+              class="field-error"></span>
+
+        <!-- TELEFONE -->
+
+        <label asp-for="Telefone">Telefone</label>
+
+        <input asp-for="Telefone"
+               type="tel"
+               maxlength="20"
+               placeholder="(41) 99999-9999">
+
+        <span asp-validation-for="Telefone"
+              class="field-error"></span>
+
+        <!-- PORTFÓLIO: SOMENTE FREELANCER -->
+
+        @if (Model.TipoUsuario == "FREELANCER")
+        {
+            <label asp-for="LinkPortfolio">Link do portfólio</label>
+
+            <input asp-for="LinkPortfolio"
+                   type="url"
+                   placeholder="https://seuportfolio.com">
+
+            <span asp-validation-for="LinkPortfolio"
+                  class="field-error"></span>
+        }
+
+        <!-- BOTÕES -->
+
+        <div class="perfil-acoes">
+
+            <button type="submit"
+                    class="primary-button">
+                Salvar alterações
+            </button>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="secondary-button">
+                Voltar
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/perfil.css"
+          asp-append-version="true">
+}

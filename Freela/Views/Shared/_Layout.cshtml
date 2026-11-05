@@ -1,0 +1,312 @@
+﻿
+@*
+    Cabeçalho, menu e proteção por tipo de conta.
+    Os modais de candidatura e detalhes da vaga são compartilhados.
+*@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#fbf4e9">
+
+    <title>Freela. | @ViewData["Title"]</title>
+
+    <link rel="shortcut icon" href="~/image/icon.png" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true">
+
+    <link rel="stylesheet" href="~/css/projetos.css" asp-append-version="true">
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body data-page="@ViewData["Page"]">
+
+@{
+    // Identificação da conta autenticada.
+    var logado = User.Identity?.IsAuthenticated == true;
+
+    var ehFreelancer = User.IsInRole("FREELANCER");
+
+    var ehCliente = User.IsInRole("CLIENTE");
+
+    // Identificação da página atual.
+    var paginaAtual = ViewData["Page"] as string;
+}
+
+<!-- CABEÇALHO -->
+
+<header class="site-header">
+
+    <div class="header-top">
+
+        <a class="brand"
+           asp-controller="Home"
+           asp-action="Index"
+           aria-label="Freela, página inicial">
+
+            Freela<span>.</span>
+
+        </a>
+
+        <div class="header-actions">
+
+            @if (logado)
+            {
+                <span class="user-greeting">
+                    Olá, @(User.Identity?.Name)
+                </span>
+
+                <form asp-controller="Conta"
+                      asp-action="Sair"
+                      method="post"
+                      class="logout-form">
+
+                    <button class="login-button" type="submit">
+                        Sair
+                    </button>
+
+                </form>
+            }
+            else
+            {
+                <a class="login-button"
+                   asp-controller="Conta"
+                   asp-action="Login">
+
+                    <span aria-hidden="true">↗</span>
+                    Entrar na conta
+
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+    @if (logado)
+    {
+        <nav class="main-nav" id="main-nav">
+
+            <button class="menu-toggle"
+                    id="menu-toggle"
+                    type="button"
+                    aria-label="Abrir menu"
+                    aria-expanded="false">
+
+                ☰
+
+            </button>
+
+            @if (ehFreelancer)
+            {
+                <a class="nav-link @(paginaAtual == "jobs" ? "active" : "")"
+                   asp-controller="Home"
+                   asp-action="Vagas">
+
+                    Procurar vagas
+
+                </a>
+
+                <a class="nav-link @(paginaAtual == "applications" ? "active" : "")"
+                   asp-controller="Home"
+                   asp-action="Candidaturas">
+
+                    Minhas candidaturas
+
+                </a>
+            }
+
+            @if (ehCliente)
+            {
+                <a class="nav-link @(paginaAtual == "client" ? "active" : "")"
+                   asp-controller="Home"
+                   asp-action="Candidatos">
+
+                    Candidatos
+
+                </a>
+
+                <a class="nav-link @(paginaAtual == "postJob" ? "active" : "")"
+                   asp-controller="Home"
+                   asp-action="Publicar">
+
+                    Publicar vaga
+
+                </a>
+
+                <a class="nav-link @(paginaAtual == "myProjects" ? "active" : "")"
+                   asp-controller="Projetos"
+                   asp-action="Meus">
+
+                    Meus projetos
+
+                </a>
+            }
+
+            <!-- NOVO: MEU PERFIL PARA OS DOIS TIPOS DE CONTA -->
+
+            <a class="nav-link @(paginaAtual == "profile" ? "active" : "")"
+               asp-controller="Perfil"
+               asp-action="Index">
+
+                Meu perfil
+
+            </a>
+
+        </nav>
+    }
+
+</header>
+
+<!-- TOKEN ANTIFORGERY -->
+
+@Html.AntiForgeryToken()
+
+<!-- CONTEÚDO DAS PÁGINAS -->
+
+<main class="app-main">
+
+    @RenderBody()
+
+</main>
+
+<!-- MODAIS COMPARTILHADOS -->
+
+<!-- MODAL: ENVIO DA CANDIDATURA -->
+
+<dialog class="modal" id="application-modal">
+
+    <button class="modal-close"
+            data-close="application-modal"
+            aria-label="Fechar">
+
+        ×
+
+    </button>
+
+    <h2>Enviar candidatura</h2>
+
+    <p class="modal-subtitle" id="modal-job-title"></p>
+
+    <form id="application-form">
+
+        <label for="presentation">
+            Mensagem / apresentação
+        </label>
+
+        <textarea id="presentation"
+                  rows="3"
+                  required
+                  minlength="10"
+                  maxlength="1000"
+                  placeholder="Conte por que você é a pessoa certa para este projeto."></textarea>
+
+        <div class="form-grid">
+
+            <div>
+                <label for="proposal">Valor proposto (R$)</label>
+
+                <input id="proposal"
+                       type="number"
+                       min="1"
+                       step="0.01"
+                       required>
+            </div>
+
+            <div>
+                <label for="deadline">Prazo estimado (dias)</label>
+
+                <input id="deadline"
+                       type="number"
+                       min="1"
+                       step="1"
+                       required>
+            </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button type="button"
+                    class="secondary-button"
+                    data-close="application-modal">
+
+                Cancelar
+
+            </button>
+
+            <button type="submit" class="primary-button">
+
+                Enviar candidatura
+
+            </button>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+<!-- MODAL: DETALHES DA VAGA -->
+
+<dialog class="modal" id="job-details-modal">
+
+    <button type="button"
+            class="modal-close"
+            data-close="job-details-modal"
+            aria-label="Fechar">
+
+        ×
+
+    </button>
+
+    <div id="job-details-content"></div>
+
+    <button type="button"
+            class="primary-button full-button"
+            id="details-main-action">
+
+        Tenho interesse
+
+    </button>
+
+</dialog>
+
+<!-- NOTIFICAÇÕES -->
+
+<div class="toast-region"
+     id="toast-region"
+     aria-live="polite"
+     aria-atomic="true">
+</div>
+
+<!-- SCRIPTS COMUNS -->
+
+<script src="~/js/utils.js" asp-append-version="true"></script>
+
+<script src="~/js/api.js" asp-append-version="true"></script>
+
+<script src="~/js/storage.js" asp-append-version="true"></script>
+
+<script src="~/js/navigation.js" asp-append-version="true"></script>
+
+<script src="~/js/modals.js" asp-append-version="true"></script>
+
+<!-- SCRIPTS ESPECÍFICOS DE CADA PÁGINA -->
+
+@RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+/* VARIÁVEIS, RESET E UTILITÁRIOS */
+
+:root {
+  --cream: #fbf4e9;
+  --paper: #fffdfa;
+  --pink: #ef6d91;
+  --pink-soft: #fbdde5;
+  --pink-line: #efd5cc;
+  --rose-text: #b45e70;       /* rosa escuro: links, menu e textos de destaque */
+  --rose-hover: #8e4759;      /* o mesmo rosa, mais escuro, ao passar o mouse */
+  --ink: #351a20;
+  --muted: #987e7d;
+  --green: #159c5b;
+  --green-soft: #b8dfc8;
+  --shadow: 0 15px 30px rgba(113, 53, 49, .10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(
+      ellipse at 50% 15%,
+      rgba(255, 225, 229, .58),
+      transparent 46%
+    ),
+    linear-gradient(
+      180deg,
+      #fbefec 0%,
+      var(--cream) 65%,
+      #fbf2e5 100%
+    );
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 16px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #ed9bb0;
+  outline-offset: 3px;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* LINKS: todos no rosa escuro do site (o mesmo do menu).
+   Links com classe (botões, menu, logo) continuam com o estilo da própria classe. */
+
+a {
+  color: var(--rose-text);
+  text-decoration: none;
+}
+
+a:not([class]) {
+  font-weight: 600;
+}
+
+a:not([class]):hover {
+  color: var(--rose-hover);
+  text-decoration: underline;
+}
+
+.hidden,
+.empty-state.hidden {
+  display: none !important;
+}
+
+/* ACESSIBILIDADE */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

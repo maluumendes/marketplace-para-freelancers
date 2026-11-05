@@ -1,0 +1,94 @@
+/* HEADER E MENU */
+
+.site-header {
+  background: rgba(255, 250, 241, .9);
+  border-bottom: 1px solid #f0ddd4;
+  padding: 0 3.3%;
+}
+
+.header-top {
+  max-width: 1440px;
+  min-height: 47px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand {
+  font: 700 18px "Playfair Display", Georgia, serif;
+  letter-spacing: -.5px;
+  color: var(--ink);
+}
+
+.brand span {
+  color: var(--pink);
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border: 1px solid #ead1c8;
+  border-radius: 999px;
+  background: #fffaf5;
+  color: #815e5e;
+  font-size: 15px;
+}
+
+.login-button:hover {
+  background: var(--pink-soft);
+}
+
+.main-nav {
+  max-width: 1440px;
+  min-height: 37px;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #8e7775;
+  font-size: 15px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.nav-link[hidden] {
+  display: none !important;
+}
+
+.nav-link:hover {
+  color: var(--rose-text);
+}
+
+.nav-link.active {
+  background: var(--pink-soft);
+  color: #805b60;
+  font-weight: 600;
+}
+
+.menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 27px;
+}

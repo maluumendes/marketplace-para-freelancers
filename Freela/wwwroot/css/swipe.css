@@ -1,0 +1,132 @@
+/* CARTÕES DOS CANDIDATOS */
+
+.candidate-card {
+  user-select: none;
+}
+
+.candidate-card.swiping {
+  transition: none;
+  cursor: grabbing;
+}
+
+.candidate-card,
+.job-card {
+  will-change: transform;
+}
+
+.swipe-feedback {
+  min-height: 22px;
+  margin-top: 9px;
+  color: var(--rose-text);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =================================
+   ANIMAÇÃO GRAB & SWIPE
+   ================================= */
+
+/* O cartão acompanha o movimento */
+#job-card,
+.candidate-card {
+  position: relative;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+/* Enquanto o usuário segura */
+#job-card.swiping,
+.candidate-card.swiping {
+  cursor: grabbing;
+  transition: none;
+  box-shadow: 0 18px 40px rgba(130, 69, 73, 0.18);
+  z-index: 2;
+}
+
+/* Indicador visual sobre o cartão */
+#job-card::after,
+.candidate-card::after {
+  content: attr(data-swipe-label);
+  position: absolute;
+  top: 22px;
+  right: 18px;
+  z-index: 5;
+
+  padding: 9px 13px;
+  border: 3px solid currentColor;
+  border-radius: 9px;
+
+  color: var(--swipe-color, #15965b);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  opacity: var(--swipe-opacity, 0);
+  pointer-events: none;
+  transform: rotate(8deg);
+  transition: opacity 0.05s linear;
+}
+
+/* Animação quando aceita */
+#job-card.swipe-exit-right,
+.candidate-card.swipe-exit-right {
+  animation: swipeRight 0.24s ease-in forwards;
+  pointer-events: none;
+}
+
+/* Animação quando recusa */
+#job-card.swipe-exit-left,
+.candidate-card.swipe-exit-left {
+  animation: swipeLeft 0.24s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes swipeRight {
+  to {
+    transform: translateX(130%) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeLeft {
+  to {
+    transform: translateX(-130%) rotate(-18deg);
+    opacity: 0;
+  }
+}
+
+/* Melhora o feedback visual dos botões */
+.round-action {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.round-action:hover {
+  transform: scale(1.08);
+  box-shadow: 0 5px 14px rgba(130, 69, 73, 0.12);
+}
+
+.round-action:active {
+  transform: scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #job-card,
+  .candidate-card,
+  .round-action {
+    transition: none;
+  }
+
+  #job-card.swipe-exit-left,
+  #job-card.swipe-exit-right,
+  .candidate-card.swipe-exit-left,
+  .candidate-card.swipe-exit-right {
+    animation-duration: 0.01ms;
+  }
+}

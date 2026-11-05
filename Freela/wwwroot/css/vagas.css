@@ -1,0 +1,303 @@
+
+/* =====================================
+   TELA 1 — PROCURAR VAGAS
+===================================== */
+
+.job-layout {
+  width: min(100%, 540px);
+  margin: 0 auto;
+}
+
+.job-card {
+  padding: 25px 25px 20px;
+  border: 1px solid var(--pink-line);
+  border-radius: 23px;
+  background: rgba(255, 253, 250, .97);
+  box-shadow: var(--shadow);
+  touch-action: pan-y;
+  transition: transform .25s, opacity .25s;
+}
+
+.category {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--pink-soft);
+  color: #7d3848;
+  font-size: 14px;
+}
+
+.job-card h2 {
+  margin: 9px 0 7px;
+  font-size: 28px;
+  line-height: 1.17;
+}
+
+.company {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: #a27779;
+  font-size: 15px;
+}
+
+.description {
+  margin: 17px 0 14px;
+  color: #936e70;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* =====================================
+   HABILIDADES
+===================================== */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 0 14px;
+}
+
+.chips span {
+  padding: 4px 10px;
+  border: 1px solid #efd4c7;
+  border-radius: 999px;
+  background: #f9eadf;
+  color: #663c3b;
+  font-size: 13px;
+}
+
+.job-card .chips {
+  justify-content: flex-start;
+}
+
+/* =====================================
+   INFORMAÇÕES DA VAGA
+===================================== */
+
+.job-facts,
+.candidate-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px 10px;
+  padding: 13px;
+  border-radius: 17px;
+  background: #f8f0e2;
+}
+
+.job-facts div,
+.candidate-facts div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.job-facts small,
+.candidate-facts small {
+  color: #a1807d;
+  font-size: 13px;
+}
+
+.job-facts strong,
+.candidate-facts strong {
+  color: #241416;
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+/* =====================================
+   RODAPÉ DO CARD
+===================================== */
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.card-footer small {
+  color: #a17f7c;
+  font-size: 13px;
+}
+
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--rose-text);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 0;
+}
+
+.text-button:hover {
+  color: var(--rose-hover);
+  text-decoration: underline;
+}
+
+/* =====================================
+   NOVO: PERFIL DA EMPRESA NO CARD
+===================================== */
+
+/* Agrupa foto, nome e biografia da empresa. */
+
+.job-company-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+/* Foto da empresa. */
+
+.job-company-avatar {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--pink-line);
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Alternativa quando a empresa não possui foto. */
+
+.job-company-initials {
+  display: grid;
+  place-items: center;
+  background: var(--pink-soft);
+  color: var(--rose-text);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* Informações da empresa. */
+
+.job-company-info {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.job-company-info .company {
+  margin: 0;
+}
+
+/* Biografia da empresa. */
+
+.job-company-bio {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* =====================================
+   DETALHES COMPLETOS DA VAGA
+===================================== */
+
+.job-details {
+  padding-top: 8px;
+}
+
+.job-details h2 {
+  margin: 12px 0 7px;
+  font-size: 30px;
+  line-height: 1.25;
+}
+
+.job-details h3 {
+  margin: 22px 0 8px;
+  font-size: 18px;
+}
+
+.job-details p {
+  color: #936e70;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.job-details .job-facts {
+  margin-top: 18px;
+}
+
+.job-details .chips {
+  justify-content: flex-start;
+}
+
+/* =====================================
+   NOVO: PERFIL DA EMPRESA NOS DETALHES
+===================================== */
+
+.detalhes-empresa-perfil {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+/* Foto da empresa nos detalhes. */
+
+.detalhes-empresa-avatar {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  border: 2px solid var(--pink-line);
+}
+
+/* Iniciais caso não exista foto. */
+
+.detalhes-empresa-iniciais {
+  display: grid;
+  place-items: center;
+  background: var(--pink-soft);
+  color: var(--rose-text);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* Biografia nos detalhes. */
+
+.detalhes-empresa-bio {
+  margin: 4px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* =====================================
+   RESPONSIVIDADE PARA CELULARES
+===================================== */
+
+@media (max-width: 480px) {
+
+  .job-card {
+    padding: 18px;
+  }
+
+  .job-card h2 {
+    font-size: 23px;
+  }
+
+  .job-company-profile,
+  .detalhes-empresa-perfil {
+    align-items: flex-start;
+  }
+
+  .job-company-avatar,
+  .detalhes-empresa-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+}

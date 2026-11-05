@@ -1,0 +1,31 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<section class="page active">
+  <div class="center-heading">
+    <h1>Que bom ter você aqui!</h1>
+    <p class="available">Entre na sua conta Freela.</p>
+  </div>
+
+  <form asp-controller="Conta" asp-action="Login" method="post" class="publish-form auth-card">
+    <!-- Erros gerais, como "E-mail ou senha incorretos." -->
+    <div asp-validation-summary="ModelOnly" class="field-error"></div>
+
+    <label for="Email">E-mail</label>
+    <input asp-for="Email" placeholder="voce@email.com" autocomplete="email">
+    <span asp-validation-for="Email" class="field-error"></span>
+
+    <label for="Senha">Senha</label>
+    <input asp-for="Senha" type="password" placeholder="Sua senha" autocomplete="current-password">
+    <span asp-validation-for="Senha" class="field-error"></span>
+
+    <button class="primary-button full-button" type="submit">Entrar</button>
+
+    <p class="auth-switch">
+      Ainda não tem conta?
+      <a asp-controller="Conta" asp-action="Cadastro">Criar conta</a>
+    </p>
+  </form>
+</section>
