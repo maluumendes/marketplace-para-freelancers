@@ -159,7 +159,7 @@ Em ambiente de desenvolvimento, acesse **http://localhost:5272/teste-banco**. A 
 
 | Sintoma | Causa provável | Solução |
 |---|---|---|
-| `NETSDK1013: The TargetFramework value ... was not recognized` | `<TargetFramework>` quebrado em duas linhas no `.csproj` | Deixar `<TargetFramework>net10.0</TargetFramework>` em uma linha só |
+| `NETSDK1045: The current .NET SDK does not support targeting .NET 10.0` | SDK instalado é anterior ao .NET 10 | Instalar o [.NET SDK 10](https://dotnet.microsoft.com/download) e conferir com `dotnet --list-sdks` |
 | `Access denied for user 'freela'@'localhost'` | O script não foi rodado como root, ou a senha mudou | Rodar o `freela.sql` de novo como root |
 | `Unknown collation: 'utf8mb4_0900_ai_ci'` | MySQL 5.7 ou MariaDB | Usar MySQL 8 |
 | Acentos aparecem errados | Script executado sem UTF-8 | Executar o script com `utf8mb4` (o próprio arquivo já tem `SET NAMES utf8mb4`) |
