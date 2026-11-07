@@ -22,7 +22,7 @@ namespace Freela.Models
         public Categoria Categoria { get; set; } = null!;
 
         public string Titulo { get; set; } = "";         // VARCHAR(100) no banco
-        public string Descricao { get; set; } = "";      // TEXT
+        public string Descricao { get; set; } = "";      
 
         public decimal OrcamentoMinimo { get; set; }
         public decimal OrcamentoMaximo { get; set; }
