@@ -1,0 +1,158 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+
+np.random.seed(42)
+tf.random.set_seed(42)
+
+data = load_breast_cancer()
+X = pd.DataFrame(data.data, columns=data.feature_names)
+
+y = np.where(data.target == 0, 1, 0)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y
+)
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+class VetorErrosCallback(keras.callbacks.Callback):
+    def __init__(self, nome_modelo):
+        super().__init__()
+        self.nome_modelo = nome_modelo
+        self.vetor_erros_treino = []
+        self.vetor_erros_val = []
+
+    def on_epoch_end(self, epoch, logs=None):
+        erro_treino = logs.get('loss')
+        erro_val = logs.get('val_loss')
+        acc_treino = logs.get('accuracy')
+        acc_val = logs.get('val_accuracy')
+        self.vetor_erros_treino.append(round(erro_treino, 6))
+        self.vetor_erros_val.append(round(erro_val, 6))
+        print(
+            f"[{self.nome_modelo}] Época {epoch+1:02d} | "
+            f"Erro (Loss) Treino: {erro_treino:.6f} | Erro Val: {erro_val:.6f} | "
+            f"Acurácia Treino: {acc_treino:.4f} | Acurácia Val: {acc_val:.4f}"
+        )
+
+def criar_modelo_mlp(funcao_ativacao, taxa_aprendizado=0.001):
+    """
+    Arquitetura MLP:
+    - Camada de Entrada: 30 neurônios (atributos do exame)
+    - 1ª Camada Oculta: 64 neurônios
+    - 2ª Camada Oculta: 32 neurônios
+    - 3ª Camada Oculta: 16 neurônios
+    - Camada de Saída: 1 neurônio com ativação Sigmoid (classificação binária)
+    """
+    modelo = keras.Sequential([
+        layers.Input(shape=(X_train_scaled.shape[1],)),
+        layers.Dense(64, activation=funcao_ativacao, name="oculta_1"),
+        layers.Dense(32, activation=funcao_ativacao, name="oculta_2"),
+        layers.Dense(16, activation=funcao_ativacao, name="oculta_3"),
+        layers.Dense(1, activation='sigmoid', name="saida")
+    ])
+
+    otimizador = keras.optimizers.Adam(learning_rate=taxa_aprendizado)
+    modelo.compile(
+        optimizer=otimizador,
+        loss='binary_crossentropy',
+        metrics=['accuracy']
+    )
+    return modelo
+
+TAXA_APRENDIZADO = 0.001
+EPOCAS = 50
+BATCH_SIZE = 16
+
+print("\n" + "="*75)
+print("TREINAMENTO MODELO 1: MLP COM ATIVAÇÃO ReLU")
+print("="*75)
+callback_relu = VetorErrosCallback("MLP-ReLU")
+modelo_relu = criar_modelo_mlp('relu', TAXA_APRENDIZADO)
+
+hist_relu = modelo_relu.fit(
+    X_train_scaled, y_train,
+    validation_split=0.20,
+    epochs=EPOCAS,
+    batch_size=BATCH_SIZE,
+    callbacks=[callback_relu],
+    verbose=0
+)
+
+print("\nVetor completo de erros por época (MLP - ReLU):")
+print(callback_relu.vetor_erros_treino)
+
+print("\n" + "="*75)
+print("TREINAMENTO MODELO 2: MLP COM ATIVAÇÃO Tanh")
+print("="*75)
+callback_tanh = VetorErrosCallback("MLP-Tanh")
+modelo_tanh = criar_modelo_mlp('tanh', TAXA_APRENDIZADO)
+
+hist_tanh = modelo_tanh.fit(
+    X_train_scaled, y_train,
+    validation_split=0.20,
+    epochs=EPOCAS,
+    batch_size=BATCH_SIZE,
+    callbacks=[callback_tanh],
+    verbose=0
+)
+
+print("\nVetor completo de erros por época (MLP - Tanh):")
+print(callback_tanh.vetor_erros_treino)
+
+for nome, modelo in [("MLP - ReLU", modelo_relu), ("MLP - Tanh", modelo_tanh)]:
+    y_pred_prob = modelo.predict(X_test_scaled, verbose=0)
+    y_pred = (y_pred_prob >= 0.5).astype(int)
+    print(f"\n--- Resultados no Conjunto de Teste ({nome}) ---")
+    print(f"Acurácia: {accuracy_score(y_test, y_pred):.4f}")
+    print("Matriz de Confusão:\n", confusion_matrix(y_test, y_pred))
+    print("Relatório de Classificação:\n", classification_report(y_test, y_pred, target_names=["Benigno (0)", "Maligno (1)"]))
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig.suptitle('Desempenho da Rede Neural MLP (3 Camadas Ocultas) - Breast Cancer Wisconsin', fontsize=14, fontweight='bold')
+
+axes[0, 0].plot(hist_relu.history['loss'], label='Erro Treino (Loss)', color='#1f77b4', linewidth=2)
+axes[0, 0].plot(hist_relu.history['val_loss'], label='Erro Validação (Val Loss)', color='#ff7f0e', linestyle='--', linewidth=2)
+axes[0, 0].set_title('Função de Perda (Binary Cross-Entropy) - ReLU')
+axes[0, 0].set_xlabel('Épocas')
+axes[0, 0].set_ylabel('Erro (Loss)')
+axes[0, 0].legend()
+axes[0, 0].grid(True, alpha=0.3)
+
+axes[0, 1].plot(hist_relu.history['accuracy'], label='Acurácia Treino', color='#2ca02c', linewidth=2)
+axes[0, 1].plot(hist_relu.history['val_accuracy'], label='Acurácia Validação', color='#d62728', linestyle='--', linewidth=2)
+axes[0, 1].set_title('Evolução da Acurácia - ReLU')
+axes[0, 1].set_xlabel('Épocas')
+axes[0, 1].set_ylabel('Acurácia')
+axes[0, 1].legend()
+axes[0, 1].grid(True, alpha=0.3)
+
+axes[1, 0].plot(hist_tanh.history['loss'], label='Erro Treino (Loss)', color='#1f77b4', linewidth=2)
+axes[1, 0].plot(hist_tanh.history['val_loss'], label='Erro Validação (Val Loss)', color='#ff7f0e', linestyle='--', linewidth=2)
+axes[1, 0].set_title('Função de Perda (Binary Cross-Entropy) - Tanh')
+axes[1, 0].set_xlabel('Épocas')
+axes[1, 0].set_ylabel('Erro (Loss)')
+axes[1, 0].legend()
+axes[1, 0].grid(True, alpha=0.3)
+
+axes[1, 1].plot(hist_tanh.history['accuracy'], label='Acurácia Treino', color='#2ca02c', linewidth=2)
+axes[1, 1].plot(hist_tanh.history['val_accuracy'], label='Acurácia Validação', color='#d62728', linestyle='--', linewidth=2)
+axes[1, 1].set_title('Evolução da Acurácia - Tanh')
+axes[1, 1].set_xlabel('Épocas')
+axes[1, 1].set_ylabel('Acurácia')
+axes[1, 1].legend()
+axes[1, 1].grid(True, alpha=0.3)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.savefig('desempenho_mlp_breast_cancer.png', dpi=300)
+plt.show()
